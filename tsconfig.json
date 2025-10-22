@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* Diretório de saída do build */
+    "outDir": "./dist",
+
+    /* Diretório base do código fonte */
+    "rootDir": "./src",
+
+    /* Padrão de módulo moderno */
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    /* Versão de JS que vai ser emitida */
+    "target": "ES2022",
+
+    /* Ativa verificação estrita de tipos */
+    "strict": true,
+
+    /* Permite usar import/export em arquivos TS/JS */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+
+    /* Gera arquivos de declaração (.d.ts) */
+    "declaration": true,
+
+    /* Preserva a estrutura dos módulos */
+    "isolatedModules": true,
+
+    /* Habilita suporte a top-level await e features novas */
+    "lib": ["ES2022", "DOM"],
+
+    /* Suporte a decorators (se for usar NestJS ou libs que usam) */
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
