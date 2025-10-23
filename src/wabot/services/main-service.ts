@@ -10,7 +10,7 @@ export class MainService {
   constructor(private connectionService: ConnectionService) {}
 
   public async start(): Promise<void> {
-    Container.get(ConfigService).throwIsCofigurationIsNull();
+    Container.get(ConfigService).throwIfCofigurationIsNull();
     await this.connectionService.connect();
   }
 }

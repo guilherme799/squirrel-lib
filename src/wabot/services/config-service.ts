@@ -8,7 +8,7 @@ import type { Configuration, ContextConfig } from "../contracts/config";
 export class ConfigService {
   constructor(private config: Configuration) {}
 
-  public throwIsCofigurationIsNull() {
+  public throwIfCofigurationIsNull() {
     if (!this.config) {
       console.error("\x1b[31m[ERROR] \x1b[31mConfiguration not setup properly.\x1b[0m");
 
