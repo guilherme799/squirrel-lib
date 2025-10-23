@@ -1,6 +1,6 @@
 {
   "name": "squirrel-lib",
-  "version": "1.25.296",
+  "version": "1.0.0",
   "description": "",
   "main": "dist/app/index.js",
   "scripts": {
