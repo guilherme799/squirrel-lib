@@ -41,9 +41,15 @@ export class ConnectionService {
     socket: WASocket;
     saveCreds: () => Promise<void>;
   }> {
-    let baileysFolder = path.resolve("./assets/baileys-auth");
+    let baileysFolder = this.createAssetsFolder(
+      `${this.configService.tempDir}/baileys-auth`
+    );
+    this.consoleService.logInfo(`Baileys auth folder: ${baileysFolder}`);
     let { state, saveCreds } = await useMultiFileAuthState(baileysFolder);
     let { version } = await fetchLatestBaileysVersion();
+
+    let logsFolder = this.createAssetsFolder(`${this.configService.tempDir}/logs`);
+    this.consoleService.logInfo(`Logs folder: ${logsFolder}`);
     let logger = pino(
       { timestamp: () => `,"time":"${new Date().toJSON()}"` },
       destination({
@@ -73,6 +79,13 @@ export class ConnectionService {
     return { socket, saveCreds };
   }
 
+  private createAssetsFolder(relativePath: string): string {
+    let dirPath = path.resolve(relativePath);
+    fs.mkdirSync(path.dirname(dirPath), { recursive: true });
+
+    return dirPath;
+  }
+
   private async getPairingCode(socket: WASocket): Promise<void> {
     let { creds } = socket.authState;
     if (creds.registered && creds.pairingCode) {
@@ -83,7 +96,9 @@ export class ConnectionService {
     let phoneNumber = await this.consoleService.question(
       "Informe o número de telefone do bot: "
     );
-    this.consoleService.logInfo(`Get paring code to phone number: ${phoneNumber}`);
+    this.consoleService.logInfo(
+      `Get paring code to phone number: ${phoneNumber}`
+    );
 
     let paringCode = await socket.requestPairingCode(phoneNumber);
     this.consoleService.logInfo(`Paring code: ${paringCode}`);

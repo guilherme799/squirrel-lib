@@ -1,3 +1,4 @@
+export * from "typedi";
 export * from "../wabot/services/main-service";
 export * from "../wabot/services/connection-service";
 export * from "../wabot/services/console-service";
