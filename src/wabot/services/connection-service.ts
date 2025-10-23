@@ -47,9 +47,6 @@ export class ConnectionService {
     this.consoleService.logInfo(`Baileys auth folder: ${baileysFolder}`);
     let { state, saveCreds } = await useMultiFileAuthState(baileysFolder);
     let { version } = await fetchLatestBaileysVersion();
-
-    let logsFolder = this.createAssetsFolder(`${this.configService.tempDir}/logs`);
-    this.consoleService.logInfo(`Logs folder: ${logsFolder}`);
     let logger = pino(
       { timestamp: () => `,"time":"${new Date().toJSON()}"` },
       destination({
