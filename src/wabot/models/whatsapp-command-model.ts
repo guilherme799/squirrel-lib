@@ -16,6 +16,7 @@ import { AlertTypeEnum } from "../enums/alert-type-enum";
 import { MediaExtensionsEnum } from "../enums/media-extensions-enum";
 import { ParticipantsActionEnum } from "../enums/participants-action-enum";
 import { queryObjects } from "v8";
+import { WarningMessageError } from "./errors";
 
 export class WhatsAppCommand {
   args?: any[] | undefined;
@@ -263,23 +264,43 @@ export class WhatsAppCommand {
 
   public async sendMessageFromFile(
     filePath: string,
-    isImage: boolean,
     quoted: boolean = true
   ): Promise<proto.WebMessageInfo | null | undefined> {
     return this.internalSendMessage(quoted, () => {
-      if (isImage) return { image: fs.readFileSync(filePath) };
-      else return { sticker: fs.readFileSync(filePath) };
+      let extension = path.extname(filePath);
+      switch (extension) {
+        case `.${MediaExtensionsEnum.png}`:
+          return { image: fs.readFileSync(filePath) };
+        case `.${MediaExtensionsEnum.mp4}`:
+          return { video: fs.readFileSync(filePath), mimetype: "video/mp4" };
+        case `.${MediaExtensionsEnum.webp}`:
+          return { sticker: fs.readFileSync(filePath) };
+        case `.${MediaExtensionsEnum.mp3}`:
+          return { audio: fs.readFileSync(filePath), mimetype: "audio/mpeg" };
+        default:
+          throw new WarningMessageError("Invalid file extension");
+      }
     });
   }
 
   public async sendMessageFromUrl(
     url: string,
-    isImage: boolean,
     quoted: boolean = true
   ): Promise<proto.WebMessageInfo | undefined | null> {
     return this.internalSendMessage(quoted, () => {
-      if (isImage) return { image: { url } };
-      else return { sticker: { url } };
+      let extension = path.extname(url);
+      switch (extension) {
+        case `.${MediaExtensionsEnum.png}`:
+          return { image: { url } };
+        case `.${MediaExtensionsEnum.mp4}`:
+          return { video: { url }, mimetype: "video/mp4" };
+        case `.${MediaExtensionsEnum.webp}`:
+          return { sticker: { url } };
+        case `.${MediaExtensionsEnum.mp3}`:
+          return { audio: { url }, mimetype: "audio/mpeg" };
+        default:
+          throw new WarningMessageError("Invalid file extension");
+      }
     });
   }
 
