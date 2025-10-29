@@ -46,11 +46,11 @@ export class CommandService {
         ex instanceof InvalidArqumentsError ||
         ex instanceof WarningMessageError
       )
-        command.replyAlert(ex.message, AlertTypeEnum.warning);
+        await command.replyAlert(ex.message, AlertTypeEnum.warning);
       else if (ex instanceof DangerMessageError)
-        command.replyAlert(ex.message, AlertTypeEnum.error);
+        await command.replyAlert(ex.message, AlertTypeEnum.error);
       else
-        command.replyAlert(
+        await command.replyAlert(
           "Ocorreu um erro ao executar o comando.",
           AlertTypeEnum.error
         );
