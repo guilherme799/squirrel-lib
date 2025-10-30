@@ -121,9 +121,10 @@ export class ConnectionService {
         break;
       case ConnectionStatus.close:
         let error: Output = (lastDisconnect?.error as Boom<any>)?.output;
-        this.consoleService.logError(
+        this.consoleService.logWarning(
           `Socket disconnected. status code: ${error?.statusCode}, reason: ${error?.payload?.message}`
         );
+        this.connect();
         break;
     }
   }
